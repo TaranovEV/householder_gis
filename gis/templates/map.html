@@ -1,0 +1,46 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Geopoint</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'map.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'index_page.css' %}">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+  <div id="map"></div>
+  <script src="{% static 'map.js' %}"></script>
+  <script src="{% static 'form_control.js' %}"></script>
+  <button id="open" class="open-button" onclick="openForm()"><img src="{% static 'izo.png' %}" alt="Изохрон" style="width:50%;height:50%;"></button>
+  <div class="border" id="myForm">
+      <button type="button" class="close-button" onclick="closeForm()"> << Скрыть</button>
+      <br>
+      <br>
+      <select id="move_type" onchange="this.value">
+        <option name="firstname" value="walk"> Пешком </font></option>
+        <option  selected="selected" value="drive_service"> Авто </option>
+      </select>
+	    <br>
+      <select id="move_time" onchange="this.value">
+        <option value="5"> 5 мин </font></option>
+        <option  selected="selected" value="10"> 10 мин </option>
+      </select>
+      <br>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="mode_poly" value="circle" checked disabled>
+        <label class="form-check-label" for="inlineCheckbox1">Окружность</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="mode_poly" value="isochrone" disabled>
+        <label class="form-check-label" for="inlineCheckbox2">Изохрон</label>
+      </div>
+      <br>
+      <br>
+      <button class="button" onclick="calculate()">Рассчитать </button>
+      <br>
+  </div>
+</body>
+</html>
