@@ -1,4 +1,6 @@
 # householder_gis
+# Проект в режиме "рефакторинга и развития",
+ниже GIf анимации, необходимо немного подождать пока прогрузятся
 # Demo cirlce zone
 <img src="./data/Demo_GEO.gif" alt="Demo_GEO_circle" width="400" height="200">
 
