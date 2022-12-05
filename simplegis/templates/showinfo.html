@@ -33,8 +33,8 @@
 		  <tbody>
 			{% for oppo in opponents_for_render %}
 		    	<tr>
-		      		<td>{{ oppo.Name }}</td>
-			  		<td>{{ oppo.Address }}</td>
+		      		<td>{{ oppo.name }}</td>
+			  		<td>{{ oppo.address }}</td>
 			  		<td>{{ oppo.distance }}</td>
 		   		 </tr>
 			{% endfor %}
@@ -55,9 +55,9 @@
 		<tbody>
 			{% for shop in our_shops_for_render %}
 				<tr>
-					<td>{{ shop.Name }}</td>
-					<td>{{ shop.Address }}</td>
-					<td>{{ shop.Площадь }}</td>
+					<td>{{ shop.name }}</td>
+					<td>{{ shop.address }}</td>
+					<td>{{ shop.square }}</td>
 					<td>{{ shop.distance }}</td>
 				</tr>	
 			{% endfor %}
@@ -90,8 +90,8 @@
 		<tbody>
 			{% for station in metro_count %}
 				<tr>
-					<td>{{ station.NameOfStation }}</td>
-					<td>{{ station.IncomingPassengers }}</td>
+					<td>{{ station.name }}</td>
+					<td>{{ station.incoming_passengers }}</td>
 				</tr>
 			{% endfor %}
 		</thead>

@@ -8,7 +8,6 @@ env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 SECRET_KEY = env.str('SECRET_KEY')
 
 DEBUG = env.bool('DEBUG')
@@ -22,7 +21,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gis',
+    'django_rename_app',
+    'django.contrib.gis',
+    'simplegis',
 ]
 
 MIDDLEWARE = [
@@ -55,10 +56,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'householder_gis.wsgi.application'
 
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/simplegis/map/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': env.str('NAME'),
+        'USER': env.str('USER_DB'),
+        'PASSWORD': env.str('PASSWORD'),
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
     }
 }
 

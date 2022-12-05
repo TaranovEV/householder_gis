@@ -1,0 +1,46 @@
+body, html {
+    
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display:table;
+}
+body {
+    display:table-cell;
+    vertical-align:middle;
+    background-color: rgb(250, 250, 250);
+}
+form {
+    display:table;/* shrinks to fit conntent */
+    margin:auto;
+    width:300px;
+}
+input[type=submit]  {
+    background-color: #e67744; 
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0 auto;
+    width:300px;
+  }
+
+input{
+    padding:5px; 
+    text-align: center;
+    border:2px solid #ccc; 
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+p{
+    font-family: "Myriad Pro", "sans-serif";
+    font-size: 10pt;
+    color: #BE2D0F;
+    text-align: center;
+}

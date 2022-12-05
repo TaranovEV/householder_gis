@@ -6,13 +6,13 @@ from shapely.ops import transform
 from shapely.geometry import Point, Polygon
 
 
-
 def load_geodataframe(path:str):
     gdf = gpd.read_file(path,GEOM_POSSIBLE_NAMES='geometry',
                        KEEP_GEOM_COLUMNS='NO',encoding='utf-8')
     gdf = gpd.GeoDataFrame(gdf, geometry=gdf.geometry)
     gdf.set_crs(epsg=4326, inplace=True)
     return gdf
+
 
 def get_R(coord:tuple, R:float)->object:
     proj_wgs84 = pyproj.Proj('+proj=longlat +datum=WGS84')

@@ -49,7 +49,7 @@ function calculate() {
         document.getElementById('move_time').addEventListener('change', function() {
             data['time_iso']=this.value;
           });
-        route_url='http://127.0.0.1:8000/gis/'+data['lat']+','+data['long']+','
+        route_url='http://127.0.0.1:8000/simplegis/'+data['lat']+','+data['long']+','
         +data['type_iso']+','+data['time_iso'];
 
         center_map = {

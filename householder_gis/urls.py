@@ -5,8 +5,8 @@ from django.conf.urls.static import static
 
 urlpatterns = ([
     path('admin/', admin.site.urls),
-    path("gis/", include("gis.urls")),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path("simplegis/", include("simplegis.urls")),
 ]
 + static(settings.STATIC_URL)
 )
-#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
