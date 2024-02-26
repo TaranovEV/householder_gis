@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Info of the locations</title>
+	<link rel="stylesheet" type="text/css" href="{% static '../static/info_page.css' %}">
+    {{map.header.render|safe}}
+</head>
+<body>
+	{% if map %}
+    	{{map.html.render|safe}}
+    	<script>
+    		{{map.script.render|safe}}
+  		</script>
+    {% endif %}
+<div class="border" id="myForm">
+  <br>
+    <span><font face="Verdana" style="font-size: 70%;"> Зона влияния: {{ type_iso }} {{ time_iso }} мин. </font></span>
+	<br>
+	<span><font face="Verdana" style="font-size: 90%;"> Домохозяйства: {{ quarters_count }} шт. </font></span>
+	<br>
+	<br>
+	<div class="container-fluid">
+	  <table id="Opponents" width="100%">
+	    <caption> Конкуренты: </caption>
+		<thead>
+		  <tr>
+		    <th style="text-align: center;">Магазин</th>
+		    <th style="text-align: center;">Адрес</th>
+		    <th style="text-align: center;">Расстояние,м</th>
+		  </tr>
+		  <tbody>
+			{% for oppo in opponents_for_render %}
+		    	<tr>
+		      		<td>{{ oppo.name }}</td>
+			  		<td>{{ oppo.address }}</td>
+			  		<td>{{ oppo.distance }}</td>
+		   		 </tr>
+			{% endfor %}
+		   </tbody>
+	    </thead>
+	  </table>
+	  <br>
+	  <table id="Cannibalize" width="100%">
+		<caption> Магазины сети: </caption>
+		<thead>
+		  <tr>
+			<th style="text-align: center;">Название</th>
+			<th style="text-align: center;">Адрес</th>
+			<th style="text-align: center;">Площадь,м2</th>
+			<th style="text-align: center;">Расстояние</th>
+		   </tr>
+		</thead>
+		<tbody>
+			{% for shop in our_shops_for_render %}
+				<tr>
+					<td>{{ shop.name }}</td>
+					<td>{{ shop.address }}</td>
+					<td>{{ shop.square }}</td>
+					<td>{{ shop.distance }}</td>
+				</tr>	
+			{% endfor %}
+		</tbody>
+		</table>
+		<br>
+		<table id="Buses" width="100%">
+			<caption> Общественный транспорт(300 м): </caption>
+			<thead>
+				<tr=>
+					<th style="text-align: center;">Остановки</th>
+					<th style="text-align: center;">Маршруты</th>
+				</tr>
+			<tbody>
+				<tr>
+					<td>{{ bus_stop_count }}</td>
+					<td>{{ routes_count }}</td>
+				</tr>
+			</thead>
+			</tbody>
+		</table>
+		<br>
+	<table id="Metro" width="100%">
+		<caption> Метро(зона влияния): </caption>
+		<thead>
+			<tr>
+				<th style="text-align: center;">Станция</th>
+				<th style="text-align: center;">Пассажиропоток, мес</th>
+			</tr>
+		<tbody>
+			{% for station in metro_count %}
+				<tr>
+					<td>{{ station.name }}</td>
+					<td>{{ station.incoming_passengers }}</td>
+				</tr>
+			{% endfor %}
+		</thead>
+		</tbody>
+	</table>
+	<br>
+	<button class="button" onclick="window.location.href='map'">Очистить </button>
+</div>
+</body>
+</html>
