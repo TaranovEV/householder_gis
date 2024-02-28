@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import MyMap from "../views/global/MyMap";
 import BasicSelect from "../comps/Select";
 import MyButton from "../comps/Button";
 import {useNavigate} from "react-router-dom";
+import L from "leaflet";
 
 export default function calcPage() {
   const menuItemsVehType = [
@@ -26,6 +27,7 @@ export default function calcPage() {
       alert('Укажите точку расчета!')
     }
   }
+
 
 
   return (

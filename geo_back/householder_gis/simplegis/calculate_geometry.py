@@ -33,4 +33,5 @@ def get_R(coord:tuple, R:float)->object:
     CIRCLE['geometry'] = None
     CIRCLE.loc[0, 'geometry'] = Polygon([(p.x, p.y) for p in pointList])
     CIRCLE.set_crs(epsg=4326, inplace=True)
-    return CIRCLE['geometry']
+    from shapely import wkt
+    return wkt.dumps(CIRCLE['geometry'][0])
