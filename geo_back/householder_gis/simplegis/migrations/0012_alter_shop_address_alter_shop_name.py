@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('simplegis', '0011_alter_busstop_options_alter_house_options_and_more'),
+        ("simplegis", "0011_alter_busstop_options_alter_house_options_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='shop',
-            name='address',
-            field=models.CharField(max_length=200, verbose_name='адрес'),
+            model_name="shop",
+            name="address",
+            field=models.CharField(max_length=200, verbose_name="адрес"),
         ),
         migrations.AlterField(
-            model_name='shop',
-            name='name',
-            field=models.CharField(max_length=200, verbose_name='название'),
+            model_name="shop",
+            name="name",
+            field=models.CharField(max_length=200, verbose_name="название"),
         ),
     ]

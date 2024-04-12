@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import House, Metro, BusStop, Shop
 from django.contrib.gis.admin import OSMGeoAdmin
+
+from .models import BusStop, House, Metro, Shop
 
 
 @admin.register(House)

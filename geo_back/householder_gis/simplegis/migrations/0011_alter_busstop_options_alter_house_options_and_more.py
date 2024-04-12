@@ -4,81 +4,89 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('simplegis', '0010_rename_incomingpassengers_metro_incoming_passengers'),
+        ("simplegis", "0010_rename_incomingpassengers_metro_incoming_passengers"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='busstop',
-            options={'verbose_name': 'остановка ОТ', 'verbose_name_plural': 'остановки ОТ'},
+            name="busstop",
+            options={
+                "verbose_name": "остановка ОТ",
+                "verbose_name_plural": "остановки ОТ",
+            },
         ),
         migrations.AlterModelOptions(
-            name='house',
-            options={'verbose_name': 'домохозяйство', 'verbose_name_plural': 'домохозяйства'},
+            name="house",
+            options={
+                "verbose_name": "домохозяйство",
+                "verbose_name_plural": "домохозяйства",
+            },
         ),
         migrations.AlterModelOptions(
-            name='metro',
-            options={'verbose_name': 'станция метрополитена', 'verbose_name_plural': 'станции метрополитена'},
+            name="metro",
+            options={
+                "verbose_name": "станция метрополитена",
+                "verbose_name_plural": "станции метрополитена",
+            },
         ),
         migrations.AlterModelOptions(
-            name='shop',
-            options={'verbose_name': 'магазин', 'verbose_name_plural': 'магазины'},
+            name="shop",
+            options={"verbose_name": "магазин", "verbose_name_plural": "магазины"},
         ),
         migrations.AlterField(
-            model_name='busstop',
-            name='name',
-            field=models.CharField(max_length=100, verbose_name='название'),
+            model_name="busstop",
+            name="name",
+            field=models.CharField(max_length=100, verbose_name="название"),
         ),
         migrations.AlterField(
-            model_name='busstop',
-            name='route_numbers',
-            field=models.CharField(max_length=600, verbose_name='маршруты'),
+            model_name="busstop",
+            name="route_numbers",
+            field=models.CharField(max_length=600, verbose_name="маршруты"),
         ),
         migrations.AlterField(
-            model_name='house',
-            name='address',
-            field=models.CharField(max_length=200, verbose_name='адрес'),
+            model_name="house",
+            name="address",
+            field=models.CharField(max_length=200, verbose_name="адрес"),
         ),
         migrations.AlterField(
-            model_name='house',
-            name='quarters_count',
-            field=models.PositiveIntegerField(verbose_name='количество_домохозяйств'),
+            model_name="house",
+            name="quarters_count",
+            field=models.PositiveIntegerField(verbose_name="количество_домохозяйств"),
         ),
         migrations.AlterField(
-            model_name='metro',
-            name='incoming_passengers',
-            field=models.PositiveIntegerField(verbose_name='трафик пассажиров'),
+            model_name="metro",
+            name="incoming_passengers",
+            field=models.PositiveIntegerField(verbose_name="трафик пассажиров"),
         ),
         migrations.AlterField(
-            model_name='metro',
-            name='line',
-            field=models.CharField(max_length=200, verbose_name='линия_метрополитена'),
+            model_name="metro",
+            name="line",
+            field=models.CharField(max_length=200, verbose_name="линия_метрополитена"),
         ),
         migrations.AlterField(
-            model_name='metro',
-            name='name',
-            field=models.CharField(max_length=200, verbose_name='название'),
+            model_name="metro",
+            name="name",
+            field=models.CharField(max_length=200, verbose_name="название"),
         ),
         migrations.AlterField(
-            model_name='shop',
-            name='address',
-            field=models.CharField(max_length=600, verbose_name='адрес'),
+            model_name="shop",
+            name="address",
+            field=models.CharField(max_length=600, verbose_name="адрес"),
         ),
         migrations.AlterField(
-            model_name='shop',
-            name='name',
-            field=models.CharField(max_length=400, verbose_name='название'),
+            model_name="shop",
+            name="name",
+            field=models.CharField(max_length=400, verbose_name="название"),
         ),
         migrations.AlterField(
-            model_name='shop',
-            name='sales',
-            field=models.FloatField(default=0, verbose_name='оборот, в руб./мес.'),
+            model_name="shop",
+            name="sales",
+            field=models.FloatField(default=0, verbose_name="оборот, в руб./мес."),
         ),
         migrations.AlterField(
-            model_name='shop',
-            name='square',
-            field=models.FloatField(default=0, verbose_name='площадь, м2'),
+            model_name="shop",
+            name="square",
+            field=models.FloatField(default=0, verbose_name="площадь, м2"),
         ),
     ]

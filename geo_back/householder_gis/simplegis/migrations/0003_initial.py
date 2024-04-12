@@ -5,21 +5,31 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('simplegis', '0002_delete_user'),
+        ("simplegis", "0002_delete_user"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Test',
+            name="Test",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('address_new', models.CharField(max_length=400)),
-                ('quarters_count', models.PositiveIntegerField()),
-                ('geometry', django.contrib.gis.db.models.fields.GeometryField(srid=4326)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("address_new", models.CharField(max_length=400)),
+                ("quarters_count", models.PositiveIntegerField()),
+                (
+                    "geometry",
+                    django.contrib.gis.db.models.fields.GeometryField(srid=4326),
+                ),
             ],
         ),
     ]

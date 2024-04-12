@@ -5,21 +5,31 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('simplegis', '0007_busstop'),
+        ("simplegis", "0007_busstop"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Shop',
+            name="Shop",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('Name', models.CharField(max_length=400)),
-                ('Address', models.CharField(max_length=600)),
-                ('Square', models.FloatField(default=0)),
-                ('Sales', models.FloatField(default=0)),
-                ('geometry', django.contrib.gis.db.models.fields.GeometryField(srid=4326)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("Name", models.CharField(max_length=400)),
+                ("Address", models.CharField(max_length=600)),
+                ("Square", models.FloatField(default=0)),
+                ("Sales", models.FloatField(default=0)),
+                (
+                    "geometry",
+                    django.contrib.gis.db.models.fields.GeometryField(srid=4326),
+                ),
             ],
         ),
     ]

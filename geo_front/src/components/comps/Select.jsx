@@ -12,36 +12,27 @@ export default function BasicSelect(props) {
         <MenuItem value={(props.labelId==="timeLenLabel")? item.toString().match(/\d+/)[0] : item }>{item}</MenuItem>
     ));
 
-  const [selectItem, setSelectItem] = React.useState('');
-
-  const handleChange = (event) => {
-    setSelectItem(event.target.value);
-  };
-
   return (
     <Box sx={{ minWidth: "100%" }}>
       <FormControl fullWidth>
-        <InputLabel id={props.id} sx={{color:'#2C394B'}}></InputLabel>
+        <InputLabel id={props.id}></InputLabel>
         <Select
           labelId={props.labelId}
           id={props.id}
-          value={selectItem}
-          label={selectItem}
-          onChange={handleChange}
+          key={props.id}
+          value={props.it}
+          onChange={props.onChangeItem}
           sx={{
-            color: "xx",
+            color: "#FF4C29",
             '.MuiOutlinedInput-notchedOutline': {
-              borderColor: '#2C394B',
+              borderColor: 'rgba(228, 219, 233, 0.25)',
             },
             '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
               borderColor: '#FF4C29',
             },
             '&:hover .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#2C394B',
+              borderColor: '#FF4C29',
             },
-            '.MuiSvgIcon-root ': {
-              fill: "xx !important",
-            }
           }}
         >
             {listItems}

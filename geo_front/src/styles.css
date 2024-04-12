@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/*#root {*/
+/*  height: 100vh;*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*  flex-direction: column;*/
+/*  gap: 1em;*/
+/*  font-family: sans-serif;*/
+/*  color: #333;*/
+/*  background-color: #f3e4d7;*/
+/*}*/
+/*#root {*/
+/*    color: #333;*/
+/*  background-color: #f3e4d7;*/
+/*}*/
+
+/* height of the container */
+.leaflet-container {
+  position: absolute;
+  height: 99%;
+  width: 75%;
+}
+/*#map {*/
+/*  position: relative;*/
+/*  border: 1px solid black;*/
+/*  border-radius: 8px;*/
+/*  height: 400px;  !* or as desired *!*/
+/*  width: 10%;  !* This means "100% of the width of its container", the .col-md-8 *!*/
+/*}*/
+
+.cluster-icon {
+  background-color: #333;
+  height: 2em;
+  width: 2em;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  box-shadow: 0 0 0px 5px #fff;
+}
+:root {
+    --bodyColor: "#000000";
+}
+body {
+    background-color: var(--bodyColor);
+}
+
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+    position: absolute;
+    pointer-events: none;
+    border: 6px solid transparent;
+    background: transparent;
+    content: "";
+    }
