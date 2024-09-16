@@ -19,6 +19,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from geo_back.householder_gis.simplegis.services.houses import Houses
 from geo_back.householder_gis.simplegis.services.metro_stations import MetroStations
 from geo_back.householder_gis.simplegis.services.shops import Shops
 
@@ -48,9 +49,13 @@ class ShowZone(APIView):
 
         distance = speed * time_iso / 60
 
-        quarters_count = House.objects.get_quaters_in_R(longitude, latitude, distance)[
-            "quarters_count"
-        ]
+        # quarters_count = House.objects.get_quaters_in_R(longitude, latitude, distance)[
+        #     "quarters_count"
+        # ]
+        house_service = Houses(
+            longitude=longitude, latitude=latitude, distance=distance
+        )
+        quarters_count = house_service.get_quaters_inside_circle_zone()
         shops_service = Shops(longitude=longitude, latitude=latitude, distance=distance)
         our_shops = shops_service.get_our_shops_inside_circle_zone(
             longitude=longitude, latitude=latitude, distance=distance
