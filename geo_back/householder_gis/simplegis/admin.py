@@ -1,7 +1,12 @@
 from django.contrib import admin
 from django.contrib.gis.admin import OSMGeoAdmin
 
-from .models import BusStop, House, Metro, Shop
+from geo_back.householder_gis.simplegis.infra.django_models.models import (
+    BusStop,
+    House,
+    Metro,
+    Shop,
+)
 
 
 @admin.register(House)

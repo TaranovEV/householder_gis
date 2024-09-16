@@ -37,27 +37,33 @@ class ShowZone(APIView):
         serializer.is_valid(raise_exception=True)
         type_iso = serializer.validated_data.get("type_iso")
         time_iso = serializer.validated_data.get("time_iso")
-        lon = serializer.validated_data.get("lon")
-        lat = serializer.validated_data.get("lat")
+        longitude = serializer.validated_data.get("lon")
+        latitude = serializer.validated_data.get("lat")
 
         speed = 25
         if type_iso == "walk":
             speed = 4.5
 
-        dist = speed * time_iso / 60
+        distance = speed * time_iso / 60
 
-        quarters_count = House.objects.get_quaters_in_R(lon, lat, dist)[
+        quarters_count = House.objects.get_quaters_in_R(longitude, latitude, distance)[
             "quarters_count"
         ]
-        shops = Shop.objects.get_shops_in_R(lon, lat, dist)
+        shops = Shop.objects.get_shops_in_R(longitude, latitude, distance)
         our_shops_for_render = shops.filter(name="Электротовары")
         opponents_for_render = shops.filter(~Q(name="Электротовары"))
         bus_station, bus_stop_count, routes_count = BusStop.objects.get_stops_in_R(
-            lon, lat, dist=0.3
+            longitude, latitude, dist=0.3
         )
-        metro_count = Metro.objects.get_stations_in_R(lon, lat, dist)
+        # metro_count = Metro.objects.get_stations_in_R(longitude, latitude, distance)
+        metro_stations_service = MetroStations(
+            longitude=longitude, latitude=latitude, distance=distance
+        )
+        metro_count = metro_stations_service.get_stations_inside_circle_zone(
+            longitude, latitude, distance
+        )
 
-        iso_poly = calculate_geometry.get_R((lat, lon), dist)
+        iso_poly = calculate_geometry.get_R((latitude, longitude), distance)
 
         geojson = {
             "type": "FeatureCollection",
@@ -79,7 +85,7 @@ class ShowZone(APIView):
                     "our_shops_for_render": AddDistanceSerializer(
                         our_shops_for_render, many=True
                     ).data,
-                    "pin_coords": [lon, lat],
+                    "pin_coords": [longitude, latitude],
                 },
                 "geometry": iso_poly,
             },
