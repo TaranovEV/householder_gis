@@ -19,6 +19,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from geo_back.householder_gis.simplegis.services.bus_stops import BusStops
 from geo_back.householder_gis.simplegis.services.houses import Houses
 from geo_back.householder_gis.simplegis.services.metro_stations import MetroStations
 from geo_back.householder_gis.simplegis.services.shops import Shops
@@ -66,9 +67,18 @@ class ShowZone(APIView):
         # shops = Shop.objects.get_shops_in_R(longitude, latitude, distance)
         # our_shops_for_render = shops.filter(name="Электротовары")
         # opponents_for_render = shops.filter(~Q(name="Электротовары"))
-        bus_station, bus_stop_count, routes_count = BusStop.objects.get_stops_in_R(
-            longitude, latitude, dist=0.3
+        # bus_station, bus_stop_count, routes_count = BusStop.objects.get_stops_in_R(
+        #     longitude, latitude, dist=0.3
+        # )
+        bus_stops_service = BusStops(
+            longitude=longitude, latitude=latitude, distance=0.3
         )
+        (
+            bus_stops,
+            bus_stops_count,
+            bus_routes_count,
+        ) = bus_stops_service.get_stops_inside_circle_zone()
+
         # metro_count = Metro.objects.get_stations_in_R(longitude, latitude, distance)
         metro_stations_service = MetroStations(
             longitude=longitude, latitude=latitude, distance=distance
@@ -89,10 +99,10 @@ class ShowZone(APIView):
                     ),
                     "time_iso": time_iso,
                     "quarters_count": quarters_count,
-                    "bus_station": BusStopSerializer(bus_station, many=True).data,
-                    "bus_stop_count": bus_stop_count,
+                    "bus_station": BusStopSerializer(bus_stops, many=True).data,
+                    "bus_stop_count": bus_stops_count,
                     "metro_count": MetroStationSerializer(metro_count, many=True).data,
-                    "routes_count": routes_count,
+                    "routes_count": bus_routes_count,
                     "opponents_for_render": AddDistanceSerializer(
                         opponents, many=True
                     ).data,
