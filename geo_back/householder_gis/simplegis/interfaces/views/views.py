@@ -1,10 +1,9 @@
 import warnings
 
-from django.db.models import Q
 from django.http import JsonResponse
 from drf_spectacular.utils import extend_schema
 from householder_gis.simplegis.logic import calculate_geometry
-from householder_gis.simplegis.models import BusStop, House, Metro, Shop
+from householder_gis.simplegis.models import BusStop, House
 from householder_gis.simplegis.serrializers import (
     AddDistanceSerializer,
     RegisterUserSerializer,
@@ -19,6 +18,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from geo_back.householder_gis.simplegis.services.metro_stations import MetroStations
+from geo_back.householder_gis.simplegis.services.shops import Shops
 
 warnings.filterwarnings("ignore")
 
@@ -49,9 +51,16 @@ class ShowZone(APIView):
         quarters_count = House.objects.get_quaters_in_R(longitude, latitude, distance)[
             "quarters_count"
         ]
-        shops = Shop.objects.get_shops_in_R(longitude, latitude, distance)
-        our_shops_for_render = shops.filter(name="Электротовары")
-        opponents_for_render = shops.filter(~Q(name="Электротовары"))
+        shops_service = Shops(longitude=longitude, latitude=latitude, distance=distance)
+        our_shops = shops_service.get_our_shops_inside_circle_zone(
+            longitude=longitude, latitude=latitude, distance=distance
+        )
+        opponents = shops_service.get_competitor_shops_inside_circle_zone(
+            longitude=longitude, latitude=latitude, distance=distance
+        )
+        # shops = Shop.objects.get_shops_in_R(longitude, latitude, distance)
+        # our_shops_for_render = shops.filter(name="Электротовары")
+        # opponents_for_render = shops.filter(~Q(name="Электротовары"))
         bus_station, bus_stop_count, routes_count = BusStop.objects.get_stops_in_R(
             longitude, latitude, dist=0.3
         )
@@ -60,7 +69,7 @@ class ShowZone(APIView):
             longitude=longitude, latitude=latitude, distance=distance
         )
         metro_count = metro_stations_service.get_stations_inside_circle_zone(
-            longitude, latitude, distance
+            longitude=longitude, latitude=latitude, distance=distance
         )
 
         iso_poly = calculate_geometry.get_R((latitude, longitude), distance)
@@ -80,10 +89,10 @@ class ShowZone(APIView):
                     "metro_count": MetroStationSerializer(metro_count, many=True).data,
                     "routes_count": routes_count,
                     "opponents_for_render": AddDistanceSerializer(
-                        opponents_for_render, many=True
+                        opponents, many=True
                     ).data,
                     "our_shops_for_render": AddDistanceSerializer(
-                        our_shops_for_render, many=True
+                        our_shops, many=True
                     ).data,
                     "pin_coords": [longitude, latitude],
                 },
