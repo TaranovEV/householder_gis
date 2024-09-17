@@ -13,6 +13,7 @@ from geo_back.householder_gis.simplegis.infra.repositories.bus_stops import ORMB
 
 @dataclass(slots=True, kw_only=True)
 class BusStopsService:
+    stops: List[BusStop]
     longitude: Longitude
     latitude: Latitude
     distance: float
