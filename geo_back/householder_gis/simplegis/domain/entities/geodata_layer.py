@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 from geo_back.householder_gis.simplegis.domain.entities.bus_stops import BusStop
-from geo_back.householder_gis.simplegis.domain.entities.isochron import Isochron
+from geo_back.householder_gis.simplegis.domain.entities.isochrone import Isochron
 from geo_back.householder_gis.simplegis.domain.entities.metro_stations import (
     MetroStation,
 )

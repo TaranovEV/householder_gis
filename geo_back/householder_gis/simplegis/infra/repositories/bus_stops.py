@@ -1,13 +1,10 @@
 from dataclasses import dataclass
 from typing import Union, List
 
-from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import Distance
 from django.db.models import Count, QuerySet
-from geo_back.householder_gis.simplegis.domain.values.geometry import (
-    Latitude,
-    Longitude,
-)
+
+from geo_back.householder_gis.simplegis.domain.entities.isochrone import Isochrone
 from geo_back.householder_gis.simplegis.infra.django_models.models import (
     BusStop as BusStopsModel,
 )
@@ -17,13 +14,15 @@ from geo_back.householder_gis.simplegis.infra.django_models.models import (
 class ORMBusStops:
     model: "BusStopsModel" = BusStopsModel
     filters: "BusStopsFilters" = None
-    longitude: Longitude
-    latitude: Latitude
-    distance: float
+    isochrone: Isochrone
 
     def filter_points_inside(self):
-        point = Point(self.longitude, self.latitude)
-        return self.filter(geometry__distance_lt=(point, Distance(km=self.distance)))
+        return self.filter(
+            geometry__distance_lt=(
+                self.isochrone.center,
+                Distance(km=self.isochrone.inner_radius),
+            )
+        )
 
     def filter_stops_inside(self) -> Union[QuerySet, List[BusStopsModel]]:
         routes = set()

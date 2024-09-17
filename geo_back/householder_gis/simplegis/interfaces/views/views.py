@@ -19,9 +19,10 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from geo_back.householder_gis.simplegis.domain.entities.isochrone import Isochrone
 from geo_back.householder_gis.simplegis.services.bus_stops import BusStopsService
 from geo_back.householder_gis.simplegis.services.houses import HousesService
-from geo_back.householder_gis.simplegis.services.isochron import IsochronService
+from geo_back.householder_gis.simplegis.services.isochrone import IsochronService
 from geo_back.householder_gis.simplegis.services.metro_stations import (
     MetroStationsService,
 )
@@ -47,11 +48,15 @@ class ShowZone(APIView):
         longitude = serializer.validated_data.get("lon")
         latitude = serializer.validated_data.get("lat")
 
-        speed = 25
-        if type_iso == "walk":
-            speed = 4.5
-
-        distance = speed * time_iso / 60
+        # speed = 25
+        # if type_iso == "walk":
+        #     speed = 4.5
+        #
+        # distance = speed * time_iso / 60
+        distance = None
+        isochrone = Isochrone(
+            latitude=latitude, longitude=longitude, time_iso=time_iso, type_iso=type_iso
+        )
 
         # quarters_count = House.objects.get_quaters_in_R(longitude, latitude, distance)[
         #     "quarters_count"
@@ -75,9 +80,7 @@ class ShowZone(APIView):
         # bus_station, bus_stop_count, routes_count = BusStop.objects.get_stops_in_R(
         #     longitude, latitude, dist=0.3
         # )
-        bus_stops_service = BusStopsService(
-            longitude=longitude, latitude=latitude, distance=0.3
-        )
+        bus_stops_service = BusStopsService(isochrone=isochrone)
         (
             bus_stops,
             bus_stops_count,
