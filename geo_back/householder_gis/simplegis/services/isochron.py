@@ -14,7 +14,7 @@ from geo_back.householder_gis.simplegis.domain.values.geometry import (
 
 
 @dataclass(slots=True, kw_only=True)
-class Isochron:
+class IsochronService:
     longitude: Longitude
     latitude: Latitude
     radius: float

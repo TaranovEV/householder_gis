@@ -12,7 +12,7 @@ from geo_back.householder_gis.simplegis.infra.repositories.shops import ORMShops
 
 
 @dataclass(slots=True, kw_only=True)
-class Shops:
+class ShopsService:
     longitude: Longitude
     latitude: Latitude
     distance: float

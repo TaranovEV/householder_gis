@@ -12,7 +12,7 @@ from geo_back.householder_gis.simplegis.infra.repositories.houses import ORMHous
 
 
 @dataclass(slots=True, kw_only=True)
-class Houses:
+class HousesService:
     longitude: Longitude
     latitude: Latitude
     distance: float

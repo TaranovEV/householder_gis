@@ -10,7 +10,7 @@ from geo_back.householder_gis.simplegis.infra.repositories.metro_stations import
 
 
 @dataclass(slots=True, kw_only=True)
-class MetroStations:
+class MetroStationsService:
     longitude: Longitude
     latitude: Latitude
     distance: float
