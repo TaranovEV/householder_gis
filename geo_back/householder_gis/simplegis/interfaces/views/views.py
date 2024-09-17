@@ -21,6 +21,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from geo_back.householder_gis.simplegis.services.bus_stops import BusStops
 from geo_back.householder_gis.simplegis.services.houses import Houses
+from geo_back.householder_gis.simplegis.services.isochron import Isochron
 from geo_back.householder_gis.simplegis.services.metro_stations import MetroStations
 from geo_back.householder_gis.simplegis.services.shops import Shops
 
@@ -87,7 +88,11 @@ class ShowZone(APIView):
             longitude=longitude, latitude=latitude, distance=distance
         )
 
-        iso_poly = calculate_geometry.get_R((latitude, longitude), distance)
+        # iso_poly = calculate_geometry.get_R((latitude, longitude), distance)
+        isochron_service = Isochron(
+            longitude=longitude, latitude=latitude, radius=distance
+        )
+        isochron = isochron_service.get_circle()
 
         geojson = {
             "type": "FeatureCollection",
@@ -111,7 +116,7 @@ class ShowZone(APIView):
                     ).data,
                     "pin_coords": [longitude, latitude],
                 },
-                "geometry": iso_poly,
+                "geometry": isochron,
             },
         }
 
