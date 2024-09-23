@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 from geo_back.householder_gis.simplegis.domain.entities.bus_stops import BusStop
-from geo_back.householder_gis.simplegis.domain.entities.isochrone import Isochron
+from geo_back.householder_gis.simplegis.domain.entities.isochrone import Isochrone
 from geo_back.householder_gis.simplegis.domain.entities.metro_stations import (
     MetroStation,
 )
@@ -19,36 +19,34 @@ class GeoDataLayer:
     time_iso: int
     quarters_count: int
     bus_station: List[BusStop]
+    bus_routes_count: int
     bus_stop_count: None
-    metro_count: List[MetroStation]
+    metro_stations: List[MetroStation]
     routes_count: int
-    opponents_for_render: List[Shop]
-    our_shops_for_render: List[Shop]
+    opponents: List[Shop]
+    our_shops: List[Shop]
     pin_coords: List[Longitude, Latitude]
-    geometry: Isochron
+    geometry: Isochrone
 
-    # geojson = {
-    #     "type": "FeatureCollection",
-    #     "features": {
-    #         "type": "Feature",
-    #         "properties": {
-    #             "type_iso": (
-    #                 "автомобиль" if type_iso == "drive_service" else "пешком"
-    #             ),
-    #             "time_iso": time_iso,
-    #             "quarters_count": quarters_count,
-    #             "bus_station": BusStopSerializer(bus_stops, many=True).data,
-    #             "bus_stop_count": bus_stops_count,
-    #             "metro_count": MetroStationSerializer(metro_count, many=True).data,
-    #             "routes_count": bus_routes_count,
-    #             "opponents_for_render": AddDistanceSerializer(
-    #                 opponents, many=True
-    #             ).data,
-    #             "our_shops_for_render": AddDistanceSerializer(
-    #                 our_shops, many=True
-    #             ).data,
-    #             "pin_coords": [longitude, latitude],
-    #         },
-    #         "geometry": isochron,
-    #     },
-    # }
+    def to_geojson(self):
+        return {
+            "type": "FeatureCollection",
+            "features": {
+                "type": "Feature",
+                "properties": {
+                    "type_iso": (
+                        "автомобиль" if self.type_iso == "drive_service" else "пешком"
+                    ),
+                    "time_iso": self.time_iso,
+                    "quarters_count": self.quarters_count,
+                    "bus_station": self.bus_station,
+                    "bus_stop_count": self.bus_stops_count,
+                    "metro_count": self.metro_stations,
+                    "routes_count": self.bus_routes_count,
+                    "opponents_for_render": self.opponents,
+                    "our_shops_for_render": self.our_shops,
+                    "pin_coords": self.pin_coords,
+                },
+                "geometry": self.geometry,
+            },
+        }

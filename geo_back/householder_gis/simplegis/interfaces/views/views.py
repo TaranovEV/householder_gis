@@ -20,6 +20,10 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from geo_back.householder_gis.simplegis.domain.entities.isochrone import Isochrone
+from geo_back.householder_gis.simplegis.domain.values.geometry import (
+    Longitude,
+    Latitude,
+)
 from geo_back.householder_gis.simplegis.services.bus_stops import BusStopsService
 from geo_back.householder_gis.simplegis.services.houses import HousesService
 from geo_back.householder_gis.simplegis.services.isochrone import IsochronService
@@ -45,8 +49,9 @@ class ShowZone(APIView):
         serializer.is_valid(raise_exception=True)
         type_iso = serializer.validated_data.get("type_iso")
         time_iso = serializer.validated_data.get("time_iso")
-        longitude = serializer.validated_data.get("lon")
-        latitude = serializer.validated_data.get("lat")
+        longitude = Longitude(value=serializer.validated_data.get("lon"))
+        latitude = Latitude(value=serializer.validated_data.get("lat"))
+        pin_coords = [longitude, latitude]
 
         # speed = 25
         # if type_iso == "walk":
@@ -91,15 +96,31 @@ class ShowZone(APIView):
         metro_stations_service = MetroStationsService(
             longitude=longitude, latitude=latitude, distance=distance
         )
-        metro_count = metro_stations_service.get_stations_inside_circle_zone(
+        metro_stations = metro_stations_service.get_stations_inside_circle_zone(
             longitude=longitude, latitude=latitude, distance=distance
         )
 
         # iso_poly = calculate_geometry.get_R((latitude, longitude), distance)
-        isochron_service = IsochronService(
+        isochrone_service = IsochronService(
             longitude=longitude, latitude=latitude, radius=distance
         )
-        isochron = isochron_service.get_circle()
+        isochron = isochrone_service.get_circle()
+
+        geo_data_service = GeoDataLayerService(
+            type_iso=type_iso,
+            time_iso=time_iso,
+            quarters_count=quarters_count,
+            bus_station=bus_station,
+            bus_stop_count=bus_stop_count,
+            metro_stations=metro_stations,
+            routes_count=routes_count,
+            opponents_for_render=opponents,
+            our_shops_for_render=our_shops,
+            pin_coords=pin_coords,
+            geometry=Isochrone,
+        )
+
+        geo_data_layer = geo_data_service.build_layers()
 
         geojson = {
             "type": "FeatureCollection",
@@ -111,23 +132,19 @@ class ShowZone(APIView):
                     ),
                     "time_iso": time_iso,
                     "quarters_count": quarters_count,
-                    "bus_station": BusStopSerializer(bus_stops, many=True).data,
+                    "bus_station": bus_stops,
                     "bus_stop_count": bus_stops_count,
-                    "metro_count": MetroStationSerializer(metro_count, many=True).data,
+                    "metro_count": metro_stations,
                     "routes_count": bus_routes_count,
-                    "opponents_for_render": AddDistanceSerializer(
-                        opponents, many=True
-                    ).data,
-                    "our_shops_for_render": AddDistanceSerializer(
-                        our_shops, many=True
-                    ).data,
-                    "pin_coords": [longitude, latitude],
+                    "opponents_for_render": opponents,
+                    "our_shops_for_render": our_shops,
+                    "pin_coords": pin_coords,
                 },
                 "geometry": isochron,
             },
         }
 
-        return JsonResponse(geojson, status=200)
+        return JsonResponse(geo_data_layer, status=200)
 
 
 class RegistrationAPIView(APIView):

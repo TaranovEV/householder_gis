@@ -9,6 +9,9 @@ from geo_back.householder_gis.simplegis.domain.values.geometry import (
 )
 from geo_back.householder_gis.simplegis.infra.django_models.models import Shop
 from geo_back.householder_gis.simplegis.infra.repositories.shops import ORMShops
+from geo_back.householder_gis.simplegis.interfaces.serializers.serrializers import (
+    AddDistanceSerializer,
+)
 
 
 @dataclass(slots=True, kw_only=True)
@@ -23,12 +26,17 @@ class ShopsService:
             longitude=self.longitude, latitude=self.latitude, distance=self.distance
         )
 
+    def serialize_data(self, queryset: QuerySet) -> dict:
+        return AddDistanceSerializer(queryset, many=True).data
+
     def get_our_shops_inside_circle_zone(self) -> Union[QuerySet, List[Shop]]:
-        return self.orm_service.filter_our_shops_inside(
+        queryset = self.orm_service.filter_our_shops_inside(
             longitude=self.longitude, latitude=self.latitude, distance=self.distance
         )
+        return self.serialize_data(queryset=queryset)
 
     def get_competitor_shops_inside_circle_zone(self) -> Union[QuerySet, List[Shop]]:
-        return self.orm_service.filter_competitor_shops_inside(
+        queryset = self.orm_service.filter_competitor_shops_inside(
             longitude=self.longitude, latitude=self.latitude, distance=self.distance
         )
+        return self.serialize_data(queryset=queryset)
