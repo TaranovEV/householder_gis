@@ -51,7 +51,7 @@ class ShowZone(APIView):
         time_iso = serializer.validated_data.get("time_iso")
         longitude = Longitude(value=serializer.validated_data.get("lon"))
         latitude = Latitude(value=serializer.validated_data.get("lat"))
-        pin_coords = [longitude, latitude]
+        pin_coords = [longitude.value, latitude.value]
 
         # speed = 25
         # if type_iso == "walk":
@@ -101,24 +101,12 @@ class ShowZone(APIView):
         )
 
         # iso_poly = calculate_geometry.get_R((latitude, longitude), distance)
-        isochrone_service = IsochronService(
-            longitude=longitude, latitude=latitude, radius=distance
+        isochrone_service = IsochroneService(
+            longitude=longitude, latitude=latitude, type_iso=type_iso, time_iso=time_iso
         )
-        isochron = isochrone_service.get_circle()
+        isochrone = isochrone_service.isochrone
 
-        geo_data_service = GeoDataLayerService(
-            type_iso=type_iso,
-            time_iso=time_iso,
-            quarters_count=quarters_count,
-            bus_station=bus_station,
-            bus_stop_count=bus_stop_count,
-            metro_stations=metro_stations,
-            routes_count=routes_count,
-            opponents_for_render=opponents,
-            our_shops_for_render=our_shops,
-            pin_coords=pin_coords,
-            geometry=Isochrone,
-        )
+        geo_data_service = GeoDataLayerService(isochrone=isochrone)
 
         geo_data_layer = geo_data_service.build_layers()
 
@@ -144,7 +132,7 @@ class ShowZone(APIView):
             },
         }
 
-        return JsonResponse(geo_data_layer, status=200)
+        return JsonResponse(geo_data_layer.to_json(), status=200)
 
 
 class RegistrationAPIView(APIView):

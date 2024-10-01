@@ -15,8 +15,7 @@ from geo_back.householder_gis.simplegis.domain.values.geometry import (
 
 @dataclass(slots=True, kw_only=True)
 class GeoDataLayer:
-    type_iso: str
-    time_iso: int
+    isochrone: Isochrone
     quarters_count: int
     bus_station: List[BusStop]
     bus_routes_count: int
@@ -25,7 +24,7 @@ class GeoDataLayer:
     routes_count: int
     opponents: List[Shop]
     our_shops: List[Shop]
-    pin_coords: List[Longitude, Latitude]
+    pin_coords: List[float, float]
     geometry: Isochrone
 
     def to_geojson(self):
@@ -35,9 +34,11 @@ class GeoDataLayer:
                 "type": "Feature",
                 "properties": {
                     "type_iso": (
-                        "автомобиль" if self.type_iso == "drive_service" else "пешком"
+                        "автомобиль"
+                        if self.isochrone.type_iso == "drive_service"
+                        else "пешком"
                     ),
-                    "time_iso": self.time_iso,
+                    "time_iso": self.isochrone.time_iso,
                     "quarters_count": self.quarters_count,
                     "bus_station": self.bus_station,
                     "bus_stop_count": self.bus_stops_count,

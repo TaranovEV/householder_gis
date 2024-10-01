@@ -8,11 +8,27 @@ from shapely.geometry import Point, Polygon
 from shapely.ops import transform
 
 from geo_back.householder_gis.simplegis.domain.entities.isochrone import Isochrone
+from geo_back.householder_gis.simplegis.domain.values.geometry import (
+    Longitude,
+    Latitude,
+)
 
 
 @dataclass(slots=True, kw_only=True)
-class IsochronService:
-    isochrone: Isochrone
+class IsochroneService:
+    longitude: Longitude(init=False)
+    latitude: Latitude(init=False)
+    type_iso: str
+    time_iso: int
+    isochrone: Isochrone(init=False)
+
+    def __post_init__(self):
+        self.isochrone = Isochrone(
+            longitude=self.longitude,
+            latitude=self.latitude,
+            type_iso=self.type_iso,
+            time_iso=self.time_iso,
+        )
 
     def _get_pyproj_transform_settings(self):
         proj_wgs84 = pyproj.Proj("+proj=longlat +datum=WGS84")
@@ -21,7 +37,8 @@ class IsochronService:
             pyproj.transform,
             pyproj.Proj(
                 aeqd_proj.format(
-                    lat=self.isochrone.latitude, lon=self.isochrone.longitude
+                    lat=self.isochrone.latitude.value,
+                    lon=self.isochrone.longitude.value,
                 )
             ),
             proj_wgs84,
