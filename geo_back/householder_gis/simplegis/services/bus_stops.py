@@ -10,7 +10,6 @@ from geo_back.householder_gis.simplegis.infra.repositories.bus_stops import ORMB
 
 @dataclass(slots=True, kw_only=True)
 class BusStopsService:
-    objects: List[BusStop]
     isochrone: Isochrone
     orm_service: ORMBusStops = field(init=False)
 

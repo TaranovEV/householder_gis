@@ -93,12 +93,12 @@ class ShowZone(APIView):
         ) = bus_stops_service.get_stops_inside_circle_zone()
 
         # metro_count = Metro.objects.get_stations_in_R(longitude, latitude, distance)
-        metro_stations_service = MetroStationsService(
-            longitude=longitude, latitude=latitude, distance=distance
-        )
-        metro_stations = metro_stations_service.get_stations_inside_circle_zone(
-            longitude=longitude, latitude=latitude, distance=distance
-        )
+        # metro_stations_service = MetroStationsService(
+        #     longitude=longitude, latitude=latitude, distance=distance
+        # )
+        # metro_stations = metro_stations_service.get_stations_inside_circle_zone(
+        #     longitude=longitude, latitude=latitude, distance=distance
+        # )
 
         # iso_poly = calculate_geometry.get_R((latitude, longitude), distance)
         isochrone_service = IsochroneService(

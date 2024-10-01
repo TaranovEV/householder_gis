@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import Distance
 
+from geo_back.householder_gis.simplegis.domain.entities.isochrone import Isochrone
 from geo_back.householder_gis.simplegis.domain.values.geometry import (
     Latitude,
     Longitude,
@@ -19,12 +20,10 @@ from geo_back.householder_gis.simplegis.interfaces.serializers.serrializers impo
 class ORMMetroStations:
     model: "Metro" = MetroModel
     filters: "MetroStationsFilters" = None
-    longitude: Longitude
-    latitude: Latitude
-    distance: float
+    isochrone: Isochrone
 
     def filter_stations_inside(self):
-        point = Point(self.longitude, self.latitude)
+        point = self.isochrone.center
         stations = self.model.filter(
             geometry__distance_lt=(point, Distance(km=self.distance))
         )

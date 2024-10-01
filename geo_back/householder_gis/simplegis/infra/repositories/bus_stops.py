@@ -21,7 +21,7 @@ class ORMBusStops:
     isochrone: Isochrone
 
     def filter_points_inside(self):
-        return self.filter(
+        return self.model.filter(
             geometry__distance_lt=(
                 self.isochrone.center,
                 Distance(km=self.isochrone.inner_radius),

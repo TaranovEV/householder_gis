@@ -28,9 +28,7 @@ class GeoDataLayerService:
             longitude="longitude", latitude="latitude", distance="distance"
         )
         self.bus_stops_service = BusStopsService(isochrone=self.isochrone)
-        self.metro_stations_service = MetroStationsService(
-            longitude="longitude", latitude="latitude", distance="distance"
-        )
+        self.metro_stations_service = MetroStationsService(isochrone=self.isochrone)
 
     def init_bus_station_service(self):
         (
@@ -54,9 +52,7 @@ class GeoDataLayerService:
         return our_shops, opponents
 
     def init_metro_stations_service(self):
-        metro_stations = self.metro_stations_service.get_stations_inside_circle_zone(
-            longitude="longitude", latitude="latitude", distance="distance"
-        )
+        metro_stations = self.metro_stations_service.get_stations_inside_circle_zone()
         return metro_stations
 
     def build_layer(self) -> GeoDataLayer:
