@@ -66,10 +66,10 @@ class ShowZone(APIView):
         # quarters_count = House.objects.get_quaters_in_R(longitude, latitude, distance)[
         #     "quarters_count"
         # ]
-        house_service = HousesService(
-            longitude=longitude, latitude=latitude, distance=distance
-        )
-        quarters_count = house_service.get_quaters_inside_circle_zone()
+        # house_service = HousesService(
+        #     longitude=longitude, latitude=latitude, distance=distance
+        # )
+        # quarters_count = house_service.get_quaters_inside_circle_zone()
         shops_service = ShopsService(
             longitude=longitude, latitude=latitude, distance=distance
         )

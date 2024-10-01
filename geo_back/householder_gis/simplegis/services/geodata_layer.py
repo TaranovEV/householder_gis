@@ -21,12 +21,8 @@ class GeoDataLayerService:
     metro_stations_service: MetroStationsService(init=False)
 
     def __post_init__(self):
-        self.house_service = HousesService(
-            longitude="longitude", latitude="latitude", distance="distance"
-        )
-        self.shops_service = ShopsService(
-            longitude="longitude", latitude="latitude", distance="distance"
-        )
+        self.house_service = HousesService(isochrone=self.isochrone)
+        self.shops_service = ShopsService(isochrone=self.isochrone)
         self.bus_stops_service = BusStopsService(isochrone=self.isochrone)
         self.metro_stations_service = MetroStationsService(isochrone=self.isochrone)
 
@@ -43,12 +39,8 @@ class GeoDataLayerService:
         return quarters_count
 
     def init_shops_service(self):
-        our_shops = self.shops_service.get_our_shops_inside_circle_zone(
-            longitude="longitude", latitude="latitude", distance="distance"
-        )
-        opponents = self.shops_service.get_competitor_shops_inside_circle_zone(
-            longitude="longitude", latitude="latitude", distance="distance"
-        )
+        our_shops = self.shops_service.get_our_shops_inside_circle_zone()
+        opponents = self.shops_service.get_competitor_shops_inside_circle_zone()
         return our_shops, opponents
 
     def init_metro_stations_service(self):
